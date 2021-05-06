@@ -10,23 +10,21 @@ const LikeButton = ({ onLiked, onUnliked, size, status, likeImage, unlikeImage }
         setLike(status)
     }, [status])
 
-    useEffect(() => {
+    
+    const onPressButton = useCallback(()=>{
+        like ? onUnliked() : onLiked()
+    },[like])
 
 
-        like ? onLiked() : onUnliked()
+    const bounce = useRef(new Animated.Value(0)).current;
 
-    }, [like])
-
-
-    const fadeAnim = useRef(new Animated.Value(0)).current;
-
-    const fadeIn = () => {
-        Animated.spring(fadeAnim, {
+    const bounceAnim = () => {
+        Animated.spring(bounce, {
             toValue: 1,
             duration: 500,
             useNativeDriver: false
         }).start(() => {
-            fadeAnim.setValue(0)
+            bounce.setValue(0)
         });
     };
 
@@ -38,13 +36,13 @@ const LikeButton = ({ onLiked, onUnliked, size, status, likeImage, unlikeImage }
         transform: [
 
             {
-                scaleX: fadeAnim.interpolate({
+                scaleX: bounce.interpolate({
                     inputRange: [0, 0.5, 1],
                     outputRange: [1, 0.6, 1]
                 })
             },
             {
-                scaleY: fadeAnim.interpolate({
+                scaleY: bounce.interpolate({
                     inputRange: [0, 0.5, 1],
                     outputRange: [1, 0.6, 1]
                 })
@@ -56,10 +54,11 @@ const LikeButton = ({ onLiked, onUnliked, size, status, likeImage, unlikeImage }
 
     return <>
         <TouchableOpacity onPress={() => {
-            fadeIn()
+            bounceAnim()
             setLike(!like)
+            onPressButton()
         }}>
-            {!like ? <Animated.Image source={likeImage}
+            {like ? <Animated.Image source={likeImage}
                 style={buttonStyle}
             />
 

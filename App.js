@@ -1,24 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import LikeButton from './src/components/LikeButton'
+import { StyleSheet, Text, TouchableOpacity, View , Image} from 'react-native';
+import LikeButton from './src/components/LikeButton';
 
 export default function App() {
   return (
     <View style={styles.container}>
       <View style = {styles.buttonContainer}>
+
+        
       <LikeButton
         size={{ width: 45, height: 42 }}
-        status={true}
+        status={false}
         onLiked={() => { console.log("liked!") }}
         onUnliked={() => { console.log("unliked!") }}
-        likeImage={require('./assets/liked.png')}
+        //makesure to cache all the icon images
+        likeImage={require('./assets/liked.png')} 
         unlikeImage={require('./assets/like.png')}
       />
 
       <LikeButton
         size={{ width: 45, height: 42 }}
-        status={true}
+        status={false}
         onLiked={() => { console.log("liked!") }}
         onUnliked={() => { console.log("unliked!") }}
         likeImage={require('./assets/heartActive.png')}
@@ -42,5 +45,5 @@ const styles = StyleSheet.create({
     flexDirection : "row",
     width : "40%",
     justifyContent : "space-between",
-  }
+  },
 });
